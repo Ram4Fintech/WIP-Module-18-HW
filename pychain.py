@@ -69,7 +69,7 @@ class Block:
 
     # @TODO
     # Rename the `data` attribute to `record`, and set the data type to `Record`
-    data: Any
+    Record: Any
 
     creator_id: int
     prev_hash: str = "0"
@@ -79,7 +79,7 @@ class Block:
     def hash_block(self):
         sha = hashlib.sha256()
 
-        record = str(self.record).encode()
+        record = str(self.Record).encode()
         sha.update(record)
 
         creator_id = str(self.creator_id).encode()
@@ -140,7 +140,7 @@ class PyChain:
 # Adds the cache decorator for Streamlit
 
 
-@st.cache(allow_output_mutation=True)
+@st.cache_resource()
 def setup():
     print("Initializing Chain")
     return PyChain([Block("Genesis", 0)])
@@ -190,7 +190,7 @@ if st.button("Add Block"):
     # which is set equal to a `Record` that contains the `sender`, `receiver`,
     # and `amount` values
     new_block = Block(
-        data=input_data,
+        record=input_data,
         creator_id=42,
         prev_hash=prev_block_hash
     )
